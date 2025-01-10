@@ -72,7 +72,68 @@
         	    }
         	});
         }
+---------------------------------------------------------------------------------------------------------------        
+        // "나의 모임" 클릭 시 AJAX 호출
+        function loadMyParties() {
+            $.ajax({
+                url: '<%= request.getContextPath() %>/myPartiesProcess', // 나의 모임 데이터를 가져오는 서버 엔드포인트
+                method: 'GET',
+                success: function(response) {
+                    var myPartyList = response;
+
+                    console.log("나의 모임 데이터:", myPartyList); // 응답 데이터 확인
+
+                    var myPartyHtml = '';
+
+                    if (myPartyList.length === 0) {
+                        myPartyHtml = '<p>참여 중인 모임이 없습니다.</p>';
+                    } else {
+                        for (var i = 0; i < myPartyList.length; i++) {
+                            var party = myPartyList[i];
+                            myPartyHtml += '<div>';
+                            myPartyHtml += '<p>모임 이름: ' + party.partyNm + '</p>';
+                            myPartyHtml += '<p>지역: ' + party.partyRegion + '</p>';
+                            myPartyHtml += '<p>작성자: ' + party.userId + '</p>';
+                            myPartyHtml += '<p>가입일: ' + party.joinedAt + '</p>';
+                            myPartyHtml += '<form action="<%= request.getContextPath() %>/partyDetailProcess" method="get">';
+                            myPartyHtml += '<input type="hidden" name="partyIdx" value="' + party.partyIdx + '">';
+                            myPartyHtml += '<button type="submit" class="btn btn-primary">상세보기</button>';
+                            myPartyHtml += '</form>';
+                            myPartyHtml += '</div>';
+                        }
+                    }
+
+                    $('#myPartyList').html(myPartyHtml); // #myPartyList 영역에 동적 HTML 삽입
+                },
+                error: function(xhr, status, error) {
+                    console.log("AJAX 오류:", error);
+                    alert('나의 모임 데이터를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+-------------------------------------------------------------------------------------------------------        
     </script>
+
+    <!-- "나의 모임" 탭 콘텐츠 수정 -->
+    <div id="Meeting" class="tabcontent">
+        <div class="search-bar">
+            <input type="text" id="my-party-search" placeholder="모임 제목을 검색하세요..." />
+            <button id="my-party-search-btn">검색</button>
+        </div>
+
+        <!-- 나의 모임 리스트 출력 영역 -->
+        <div id="myPartyList">
+            <!-- AJAX로 데이터가 로드되면 여기에 표시됩니다 -->
+        </div>
+    </div>
+
+    <script>
+        // "나의 모임" 탭 클릭 시 데이터 로드
+        document.querySelector("[data-country='Meeting']").addEventListener('click', function() {
+            loadMyParties();
+        });
+    </script>
+    
 </head>
 <body>
     <div id="app" class="wrapper" v-cloak v-bind:class="{'is-previous': isPreviousSlide, 'first-load': isFirstLoad}">
