@@ -62,7 +62,7 @@
 	
     <!-- 내가 가입한 모임 가져오기 -->
 	<select id="selectMyParties" resultMap="PartyResultMap">
-	    SELECT p.party_idx, p.party_nm, p.party_info, p.party_region
+	    SELECT DISTINCT p.party_idx, p.party_nm, p.party_info, p.party_region
 	    FROM tb_party p
 	    JOIN tb_joning j ON p.party_idx = j.party_idx
 	    WHERE j.user_id = #{userId} AND j.agree_yn = 'y';
