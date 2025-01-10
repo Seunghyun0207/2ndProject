@@ -35,7 +35,7 @@
         <button class="card__button" type="submit">
           <span>로그인</span>
         </button>
-        <button class="card__button" type="button" onclick="location.href='/register.jsp'">
+        <button class="card__button" type="button" onclick="location.href='register.jsp'">
           <span>회원가입</span>
         </button>
       </div>
