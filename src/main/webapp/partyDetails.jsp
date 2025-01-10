@@ -44,12 +44,5 @@
             
         </div>
     </div>
-
-    <script>
-    function joinMeeting() {
-        alert('모임에 가입되었습니다!');
-        // 여기에 가입 로직을 추가할 수 있습니다.
-    }
-    </script>
 </body>
 </html>

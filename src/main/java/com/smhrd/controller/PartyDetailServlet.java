@@ -6,14 +6,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.smhrd.model.PartyDAO;
 import com.smhrd.model.PartyVO;
+import com.smhrd.model.UserVO;
 
 @WebServlet("/partyDetailProcess")
 public class PartyDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int partyIdx = Integer.parseInt(request.getParameter("partyIdx"));
+    	HttpSession session = request.getSession();
+    	UserVO user = (UserVO) session.getAttribute("user");
+
+    	if (user == null) {
+    	    response.sendRedirect("login.jsp");
+    	    return;
+    	}
+    	
+    	int partyIdx = Integer.parseInt(request.getParameter("partyIdx"));
         
         PartyDAO dao = new PartyDAO();
         PartyVO party = dao.selectPartyByIdx(partyIdx);

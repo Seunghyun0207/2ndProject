@@ -165,11 +165,18 @@
 	    LIMIT 5;
 	</select>
 	
-	<!-- 가입하기 소개글 전송 -->
-	<insert id="insertJoinRequest" parameterType="com.smhrd.model.JoinRequestVO">
-	    INSERT INTO tb_joning (party_idx, user_id, join_intro, agree_yn)
-	    VALUES (#{partyIdx}, #{userId}, #{joinIntro}, #{agreeYn});
-	</insert>
+	<!-- 신청 정보 저장 -->
+    <insert id="insertJoinRequest" parameterType="com.smhrd.model.JoinRequestVO">
+        INSERT INTO tb_joning (party_idx, user_id, join_intro, agree_yn)
+        VALUES (#{partyIdx}, #{userId}, #{joinIntro}, #{agreeYn});
+    </insert>
+
+    <!-- 특정 방의 신청자 정보 조회 -->
+    <select id="selectJoinRequestsByPartyIdx" resultType="com.smhrd.model.JoinRequestVO">
+        SELECT user_id, join_intro, agree_yn
+        FROM tb_joning
+        WHERE party_idx = #{partyIdx};
+    </select>
 
 
 </mapper>

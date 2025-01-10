@@ -12,14 +12,14 @@
         <!-- 한 줄 소개 -->
         <div class="intro-container">
             <label for="intro">자기소개</label>
-            <textarea id="intro" placeholder="자기소개를 입력하세요" required></textarea>
+            <textarea id="intro" name="joinIntro" placeholder="자기소개를 입력하세요" required></textarea>
         </div>
         
         <!-- 신청 버튼 -->
         <div class="submit-container">
-            <form action="main.jsp" method="post">
-                <input type="hidden" name="intro" id="hiddenIntro">
-                <button onclick="joinRequest()" type="submit" id="submit-btn">신청하기</button>
+            <form action="joinRequest" method="post">
+                <input type="hidden" name="partyIdx" value="${partyIdx}">
+                <button type="submit" id="submit-btn">신청하기</button>
             </form>
         </div>
     </div>
