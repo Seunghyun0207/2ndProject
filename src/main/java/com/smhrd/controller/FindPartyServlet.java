@@ -26,12 +26,13 @@ public class FindPartyServlet extends HttpServlet {
         }
 
         String userRegion = user.getUserRegion();
+        System.out.println("User Region: " + userRegion);  // userRegion 값 확인
+
         PartyDAO dao = new PartyDAO();
         List<PartyVO> partyList = dao.selectPartiesByRegion(userRegion);
 
-        // 디버깅용 로그 추가
         if (partyList == null || partyList.isEmpty()) {
-            System.out.println("DAO에서 가져온 partyList가 비어있습니다.");
+            System.out.println("DAO에서 가져온 partyList가 비어있습니다. 지역: " + userRegion);
         } else {
             for (PartyVO party : partyList) {
                 System.out.println("방 제목: " + party.getPartyNm());
@@ -39,7 +40,31 @@ public class FindPartyServlet extends HttpServlet {
             }
         }
 
-        request.setAttribute("partyList", partyList);
-        request.getRequestDispatcher("findParty.jsp").forward(request, response);
+        // JSON 데이터 반환
+        response.setContentType("application/json;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        StringBuilder jsonResponse = new StringBuilder();
+        jsonResponse.append("[");
+        if (partyList != null && !partyList.isEmpty()) {
+            for (int i = 0; i < partyList.size(); i++) {
+                PartyVO party = partyList.get(i);
+                jsonResponse.append("{")
+                    .append("\"partyNm\":\"").append(party.getPartyNm()).append("\",")
+                    .append("\"partyRegion\":\"").append(party.getPartyRegion()).append("\",")
+                    .append("\"userId\":\"").append(party.getUserId()).append("\",")
+                    .append("\"createdAt\":\"").append(party.getCreatedAt()).append("\",")
+                    .append("\"partyIdx\":\"").append(party.getPartyIdx()).append("\"")
+                    .append("}");
+                if (i < partyList.size() - 1) {
+                    jsonResponse.append(",");
+                }
+            }
+        }
+        jsonResponse.append("]");
+
+        // JSON 데이터 반환
+        System.out.println("응답 데이터: " + jsonResponse.toString());  // 확인용 로그
+        response.getWriter().write(jsonResponse.toString());
     }
 }

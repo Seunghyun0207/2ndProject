@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <%
     UserVO user = (UserVO) session.getAttribute("user");
     if (user == null) {
@@ -26,6 +27,52 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
     </style>
+    
+    
+    <!-- 모임 찾기 AJAX -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 모임 찾기 버튼 클릭 시 AJAX 호출
+        function findParty() {
+        	$.ajax({
+        	    url: '<%= request.getContextPath() %>/findPartyProcess',
+        	    method: 'GET',
+        	    success: function(response) {
+        	        // 응답이 이미 JSON 객체라면 JSON.parse() 필요 없음
+        	        // var partyList = JSON.parse(response);  <-- 이 라인을 제거함
+        	        var partyList = response;  // 만약 응답이 이미 배열 형태라면 이렇게 처리
+
+        	        console.log("응답 데이터:", partyList);  // 응답 데이터 확인
+
+        	        var partyHtml = '';
+
+        	        if (partyList.length === 0) {
+        	            partyHtml = '<p>등록된 모임이 없습니다.</p>';
+        	        } else {
+        	            for (var i = 0; i < partyList.length; i++) {
+        	                var party = partyList[i];
+        	                partyHtml += '<div>';
+        	                partyHtml += '<p>모임 이름: ' + party.partyNm + '</p>';
+        	                partyHtml += '<p>지역: ' + party.partyRegion + '</p>';
+        	                partyHtml += '<p>작성자: ' + party.userId + '</p>';
+        	                partyHtml += '<p>생성일: ' + party.createdAt + '</p>';
+        	                partyHtml += '<form action="<%= request.getContextPath() %>/partyDetailProcess" method="get">';
+        	                partyHtml += '<input type="hidden" name="partyIdx" value="' + party.partyIdx + '">';
+        	                partyHtml += '<button type="submit" class="btn btn-primary">가입하기</button>';
+        	                partyHtml += '</form>';
+        	                partyHtml += '</div>';
+        	            }
+        	        }
+
+        	        $('#partyList').html(partyHtml);  // #partyList 영역에 동적 HTML 삽입
+        	    },
+        	    error: function(xhr, status, error) {
+        	        console.log("AJAX 오류:", error);  // 오류 메시지 확인
+        	        alert('모임 찾기 실패');
+        	    }
+        	});
+        }
+    </script>
 </head>
 <body>
     <div id="app" class="wrapper" v-cloak v-bind:class="{'is-previous': isPreviousSlide, 'first-load': isFirstLoad}">
@@ -50,31 +97,39 @@
         <div class="content">
             <!-- Tab links -->
             <div class="tabs">
-                <button class="tablinks" data-country="FindMeeting" onclick="location.href='<%= request.getContextPath() %>/findPartyProcess'"><p data-title="FindMeeting">모임 찾기</p></button>
+                    <button class="tablinks" data-country="FindMeeting" onclick="findParty()">
+				        <p data-title="FindMeeting">모임 찾기</p>
+				    </button>
                 <button class="tablinks active" data-country="Meeting" onclick="location.href='myParties'"><p data-title="Meeting">나의모임</p></button>
-                <button class="tablinks" data-country="Board"><p ㄷdata-title="Board">피드</p></button>
+                <button class="tablinks" data-country="Board"><p data-title="Board">피드</p></button>
                 <button class="tablinks" data-country="Event"><p data-title="Event">이벤트</p></button>
                 <button class="tablinks" data-country="Notice"><p data-title="Notice">공지사항</p></button>
                 
             </div>
 
+			
+			<!-- 모임 찾기 -->
             <div id="FindMeeting" class="tabcontent">
                 <div class="search-bar">
                     <input type="text" id="search-input" placeholder="모임 제목을 검색하세요..." />
                     <button id="search-btn">검색</button>
                 </div>
+             	
+             	<!-- 모임 생성 -->
                 <div class="create-meeting-btn-container">
-                    <button id="create-meeting-btn">모임 생성</button>
+                	<form action="<%= request.getContextPath() %>/createPartyForm" method="get">
+                    	<button type="submit" class="btn btn-success" id="create-meeting-btn">모임 생성</button>
+                    </form>
                 </div>
-                <div class="meeting-item">
-                    <div class="photo">
-                        <img src="./images/1.png" alt="모임 사진 1">
-                    </div>
-                    <div class="details">
-                        <h3 onclick="">모임 제목</h3>
-                        <p>제목</p>
-                    </div>
-                </div>
+                
+                <!-- 모임 불러오기 -->
+	                <div class="meeting-item">
+	                	<div class="photo">
+	                        <img src="./images/1.png" alt="모임 사진 1">
+	                    </div>
+	                    <div id="partyList" class="details">
+	                    </div>
+	                </div>
             </div>
             
             <!-- Tab content -->
@@ -85,13 +140,12 @@
         <button id="search-btn">검색</button>
     </div>
 
-    <!-- 모임 항목 -->
+    <!-- 피드 모임 항목 -->
     <div class="meeting-item">
         <div class="photo">
             <img src="./images/9.jpg" alt="모임 사진 1">
         </div>
         <div class="details">
-            <h3 onclick="">모임 제목</h3>
             <p>제목</p>
         </div>
     </div>
