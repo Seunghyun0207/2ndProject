@@ -1,75 +1,75 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모임방 수정</title>
+    <link rel="stylesheet" href="css/editParty.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <h1>모임 방 수정</h1>
-        <nav>
-            <button onclick="location.href='myPage.jsp'">마이페이지</button>
-            <button onclick="location.href='logoutProcess'">로그아웃</button>
-        </nav>
-    </header>
 
-    <!-- Main Content -->
-    <main>
- <form action="editPartyProcess" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="partyIdx" value="${party.partyIdx}">
-    <div>
-        <label for="partyTitle">모임방 제목:</label>
+<div class="meeting-edit-container">
+    <h2>모임방 수정</h2>
+
+    <div class="meeting-info">
+        <label for="partyTitle">모임방 제목</label>
         <input type="text" id="partyTitle" name="partyTitle" value="${party.partyNm}" required>
-    </div>
-    <div>
-        <label for="partyDescription">모임방 소개:</label>
-        <textarea id="partyDescription" name="partyDescription" rows="5" required>${party.partyInfo}</textarea>
-    </div>
-    <div>
-        <label for="partyRegion">모임방 지역:</label>
-        <input type="text" id="partyRegion" name="partyRegion" value="${party.partyRegion}" required>
-    </div>
-    <div>
-        <label for="partyImage">이미지 파일:</label>
+
+        <label for="partyDescription">모임방 소개</label>
+        <textarea id="partyDescription" name="partyDescription" rows="4" required>${party.partyInfo}</textarea>
+
+        <label for="partyRegion">모임방 지역</label>
+        <select id="meeting-location" name="location" required>
+            <option value="" disabled selected>지역을 선택해주세요.</option>
+              
+              <option value="GG">경기도</option>
+              <option value="GW">강원도</option>
+              <option value="CB">충청북도</option>
+              <option value="CN">충청남도</option>
+              <option value="GB">경상북도</option>
+              <option value="GN">경상남도</option>
+              <option value="JB">전라북도</option>
+              <option value="JN">전라남도</option>
+              <option value="JJ">제주도</option>
+        </select>
+
+        <label for="partyImage">모임방 이미지</label>
         <input type="file" id="partyImage" name="partyImage" accept="image/*">
-        <p>현재 이미지: <img src="${party.partyFile}" alt="현재 이미지" class="party-image"></p>
-    </div>
-    <div>
-        <label for="partyNotice">공지사항:</label>
+
+        <label for="partyNotice">공지사항</label>
         <textarea id="partyNotice" name="partyNotice" rows="5">${party.partyNotice}</textarea>
     </div>
-    <div>
-        <button type="submit">수정 완료</button>
-        <button type="button" onclick="confirmDelete()">삭제하기</button>
-        <a href="deletePartyProcess?partyIdx=${party.partyIdx}">모임 삭제</a>
+
+    <div class="buttons">
+        <button onclick="updateMeeting()">수정하기</button>
+        <button onclick="confirmDelete()">삭제하기</button>
+        <button onclick="saveChanges()" style="display:none;" id="saveButton">수정완료</button>
     </div>
-</form>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 YourWebsite</p>
-    </footer>
-
-    <script>
-        function confirmDelete() {
-            if (confirm('정말로 이 모임 방을 삭제하시겠습니까?')) {
-                location.href = 'deletePartyProcess';
-            }
-        }
-    </script>
-    
+</div>
+ 
 <script>
-    function confirmEditSuccess() {
-        alert('수정이 완료되었습니다.');
-        location.href = 'partyRoom.jsp';
+    function updateMeeting() {
+        // 수정하기 버튼 클릭 시 동작하는 코드
+        alert("모임방이 수정되었습니다.");
+        document.getElementById("saveButton").style.display = "inline-block"; // 수정완료 버튼 보이기
+    }
+
+    function deleteMeeting() {
+        // 삭제하기 버튼 클릭 시 동작하는 코드
+        let confirmation = confirm("정말로 모임방을 삭제하시겠습니까?");
+        if (confirmation) {
+            alert("모임방이 삭제되었습니다.");
+            // 삭제 로직 추가
+        }
+    }
+
+    function saveChanges() {
+        // 수정완료 버튼 클릭 시 동작하는 코드
+        alert("수정 내용이 저장되었습니다.");
+        document.getElementById("saveButton").style.display = "none"; // 수정완료 버튼 숨기기
     }
 </script>
-
 
 </body>
 </html>

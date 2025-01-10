@@ -69,7 +69,7 @@
         alert(`모임방 생성 완료!\n제목: ${title}\n소개: ${description}\n지역: ${location}\n이미지: ${image.name}`);
 
         // 방 생성 후 해당 모임방 페이지로 이동 (예시 URL로 이동)
-        window.location.href = "http://127.0.0.1:5500/mainFinal/dist/index.html";  // 실제 페이지 주소로 변경 필요
+        window.location.href = "http://localhost:8081/main/dist/index.html";  // 실제 페이지 주소로 변경 필요
     });
     </script>
 
