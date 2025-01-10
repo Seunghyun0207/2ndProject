@@ -36,7 +36,7 @@
                 <input type="text" id="partyRegion" name="partyRegion" required>
             </div>
             <div>
-                <button type="submit">방 생성</button>
+                <button type="submit" onclick="location.href='partyRoom.jsp'">방 생성</button>
             </div>
         </form>
         <div>

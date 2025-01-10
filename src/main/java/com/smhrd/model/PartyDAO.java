@@ -179,3 +179,4 @@ public class PartyDAO {
 	    return result;
 	}
 }
+
