@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>유동회관 모임</title>
     <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/party.css"> <!-- CSS 경로 설정 -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/css/partyRoom.css"> <!-- CSS 경로 설정 -->
     <style>
         h1 {
             font-family: 'East Sea Dokdo', cursive;
