@@ -81,7 +81,7 @@
 	    INSERT INTO tb_party (party_nm, party_info, party_region, party_file, user_id)
 	    VALUES (#{partyNm}, #{partyInfo}, #{partyRegion}, #{partyFile}, #{userId});
 	</insert>
-    
+ 
     <!-- 특정 모임 방 정보 가져오기 -->
     <select id="selectPartyById" resultType="com.smhrd.model.PartyVO">
         SELECT party_idx, party_nm, party_info, party_region, party_file, user_id, created_at

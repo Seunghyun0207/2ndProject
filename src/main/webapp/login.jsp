@@ -38,6 +38,10 @@
         <button class="card__button" type="button" onclick="location.href='register.jsp'">
           <span>회원가입</span>
         </button>
+        <br>
+        <button class="card__button" type="submit" onclick="">
+          <span> 카카오 로그인</span>
+        </button>
       </div>
     </form>
   </section>

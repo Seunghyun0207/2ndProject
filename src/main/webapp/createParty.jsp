@@ -11,67 +11,72 @@
     <div class="create-meeting-container">
         <h1>모임방 생성</h1>
         
-        <form id="create-meeting-form">
-            <!-- 모임 제목 -->
+        <form id="create-meeting-form" action="createPartyProcess" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="meeting-title">모임방 제목</label>
-                <input type="text" id="meeting-title" name="title" placeholder="모임방 제목을 입력하세요" required>
+                <label for="partyTitle">모임방 제목</label>
+                <input type="text" id="partyTitle" name="partyTitle" placeholder="모임방 제목을 입력하세요" required>
             </div>
 
-            <!-- 모임 소개 -->
             <div class="form-group">
-                <label for="meeting-description">모임방 소개</label>
-                <textarea id="meeting-description" name="description" rows="4" placeholder="모임방 소개를 입력하세요" required></textarea>
+                <label for="partyDescription">모임방 소개</label>
+                <textarea id="partyDescription" name="partyDescription" rows="5" placeholder="모임방 소개를 입력하세요" required></textarea>
             </div>
 
-            <!-- 이미지 업로드 -->
             <div class="form-group">
-                <label for="meeting-image">모임방 이미지</label>
-                <input type="file" id="meeting-image" name="image" accept="image/*" required>
+                <label for="partyImage">모임방 이미지</label>
+                <input type="file" id="partyImage" name="partyImage" accept="image/*">
             </div>
 
-            <!-- 모임 지역 -->
             <div class="form-group">
-                <label for="meeting-location">모임방 지역</label>
-                <select id="meeting-location" name="location" required>
+                <label for="partyRegion">모임방 지역</label>
+                <select id="partyRegion" name="partyRegion" required>
                     <option value="" disabled selected>지역을 선택해주세요.</option>
-              
-              <option value="GG">경기도</option>
-              <option value="GW">강원도</option>
-              <option value="CB">충청북도</option>
-              <option value="CN">충청남도</option>
-              <option value="GB">경상북도</option>
-              <option value="GN">경상남도</option>
-              <option value="JB">전라북도</option>
-              <option value="JN">전라남도</option>
-              <option value="JJ">제주도</option>
+                    <option value="GG">경기도</option>
+                    <option value="GW">강원도</option>
+                    <option value="CB">충청북도</option>
+                    <option value="CN">충청남도</option>
+                    <option value="GB">경상북도</option>
+                    <option value="GN">경상남도</option>
+                    <option value="JB">전라북도</option>
+                    <option value="JN">전라남도</option>
+                    <option value="JJ">제주도</option>
                 </select>
             </div>
 
-            <!-- 방 생성 버튼 -->
             <div class="form-group">
                 <button type="submit" id="create-meeting-btn">방 생성</button>
             </div>
         </form>
+
+        <div id="myElementId">추가로 클릭할 요소</div>
     </div>
 
     <script>
-    document.getElementById('create-meeting-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // 폼 제출을 막고, 아래 로직을 실행합니다.
+        document.addEventListener("DOMContentLoaded", () => {
+            const createMeetingForm = document.getElementById("create-meeting-form");
+            if (createMeetingForm) {
+                createMeetingForm.addEventListener("submit", (event) => {
+                    event.preventDefault();
+                    const title = document.getElementById("partyTitle").value;
+                    const description = document.getElementById("partyDescription").value;
+                    const location = document.getElementById("partyRegion").value;
+                    const image = document.getElementById("partyImage").files[0];
 
-        // 입력 값 가져오기
-        const title = document.getElementById('meeting-title').value;
-        const description = document.getElementById('meeting-description').value;
-        const location = document.getElementById('meeting-location').value;
-        const image = document.getElementById('meeting-image').files[0];
+                    alert(`모임방 생성 완료!\n제목: ${title}\n소개: ${description}\n지역: ${location}\n이미지: ${image ? image.name : '선택 안 함'}`);
 
-        // 방 생성 처리 (예시로 alert으로 모임 정보 출력)
-        alert(`모임방 생성 완료!\n제목: ${title}\n소개: ${description}\n지역: ${location}\n이미지: ${image.name}`);
+                    window.location.href = "http://localhost:8081/2ndProject/myParties";
+                });
+            }
 
-        // 방 생성 후 해당 모임방 페이지로 이동 (예시 URL로 이동)
-        window.location.href = "http://localhost:8081/main/dist/index.html";  // 실제 페이지 주소로 변경 필요
-    });
+            const myElement = document.getElementById("myElementId");
+            if (myElement) {
+                myElement.addEventListener("click", () => {
+                    console.log("요소 클릭됨");
+                });
+            } else {
+                console.error("ID가 'myElementId'인 요소를 찾을 수 없습니다.");
+            }
+        });
     </script>
-
 </body>
 </html>
