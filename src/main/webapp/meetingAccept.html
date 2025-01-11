@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모임방 요청 수락</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="acceptance-container">
+        <h1>모임방 요청 수락</h1>
+
+        <!-- 요청 리스트 -->
+        <div class="request-list">
+            <!-- 예시 카드 -->
+            <div class="request-card">
+                <p><strong>아이디:</strong> user123</p>
+                <p><strong>이름:</strong> 홍길동</p>
+                <p><strong>자기소개글:</strong> 안녕하세요! 모임에 참여하고 싶습니다.</p>
+                <p><strong>작성 시간:</strong> 2025-01-11 15:30</p>
+
+                <!-- 버튼 그룹 -->
+                <div class="button-group">
+                    <button class="accept-btn">수락하기</button>
+                    <button class="reject-btn">거절하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const requestList = document.querySelector('.request-list');
+
+            // 버튼 클릭 이벤트 처리
+            requestList.addEventListener('click', (event) => {
+                if (event.target.classList.contains('accept-btn')) {
+                    const card = event.target.closest('.request-card');
+                    alert('요청을 수락했습니다.');
+                    card.remove();
+                } else if (event.target.classList.contains('reject-btn')) {
+                    const card = event.target.closest('.request-card');
+                    alert('요청을 거절했습니다.');
+                    card.remove();
+                }
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .acceptance-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+
+        .request-list {
+            margin-top: 20px;
+        }
+
+        .request-card {
+            background: #f4f4f4;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .request-card p {
+            margin: 5px 0;
+        }
+
+        .button-group {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center; /* 버튼들을 수평 중앙에 배치 */
+            gap: 10px; /* 버튼 사이의 간격을 추가 */
+        }
+
+        .accept-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .reject-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .accept-btn:hover {
+            background-color: #45a049;
+        }
+
+        .reject-btn:hover {
+            background-color: #e53935;
+        }
+    </style>
+</body>
+</html>

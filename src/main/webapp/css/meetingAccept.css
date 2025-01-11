@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.acceptance-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1 {
+    text-align: center;
+    color: #444;
+}
+
+.request-list {
+    margin-top: 20px;
+}
+
+.request-card {
+    background: #f4f4f4;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.request-card p {
+    margin: 5px 0;
+}
+
+.button-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* 버튼들을 수평 중앙에 배치 */
+    gap: 10px; /* 버튼 사이의 간격을 추가 */
+}
+
+.accept-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.reject-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.accept-btn:hover {
+    background-color: #45a049;
+}
+
+.reject-btn:hover {
+    background-color: #e53935;
+}
