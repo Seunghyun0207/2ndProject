@@ -2,7 +2,6 @@ package com.smhrd.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +14,6 @@ import javax.servlet.http.Part;
 import com.smhrd.model.PartyDAO;
 import com.smhrd.model.PartyVO;
 import com.smhrd.model.UserVO;
-
 
 @WebServlet("/createPartyProcess")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 10, maxRequestSize = 1024 * 1024 * 50)
@@ -34,7 +32,7 @@ public class CreatePartyServlet extends HttpServlet {
             String fileName = null;
             if (filePart != null && filePart.getSize() > 0) {
                 fileName = filePart.getSubmittedFileName();
-                String uploadPath = getServletContext().getRealPath("/") + "uploads/";
+                String uploadPath = "C:/Users/Yudong/uploads/";
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) {
                     uploadDir.mkdirs();
