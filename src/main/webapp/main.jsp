@@ -73,46 +73,6 @@
         	});
         }
 
-        // "나의 모임" 클릭 시 AJAX 호출
-        function loadMyParties() {
-            $.ajax({
-                url: '<%= request.getContextPath() %>/myPartiesProcess', // 나의 모임 데이터를 가져오는 서버 엔드포인트
-                method: 'GET',
-                success: function(response) {
-                    var myPartyList = response;
-
-                    console.log("나의 모임 데이터:", myPartyList); // 응답 데이터 확인
-
-                    var myPartyHtml = '';
-
-                    if (myPartyList.length === 0) {
-                        myPartyHtml = '<p>참여 중인 모임이 없습니다.</p>';
-                    } else {
-                        for (var i = 0; i < myPartyList.length; i++) {
-                            var party = myPartyList[i];
-                            myPartyHtml += '<div>';
-                            myPartyHtml += '<p>모임 이름: ' + party.partyNm + '</p>';
-                            myPartyHtml += '<p>지역: ' + party.partyRegion + '</p>';
-                            myPartyHtml += '<p>작성자: ' + party.userId + '</p>';
-                            myPartyHtml += '<p>가입일: ' + party.joinedAt + '</p>';
-                            myPartyHtml += '<form action="<%= request.getContextPath() %>/partyDetailProcess" method="get">';
-                            myPartyHtml += '<input type="hidden" name="partyIdx" value="' + party.partyIdx + '">';
-                            myPartyHtml += '<button type="submit" class="btn btn-primary">상세보기</button>';
-                            myPartyHtml += '</form>';
-                            myPartyHtml += '</div>';
-                        }
-                    }
-
-                    $('#myPartyList').html(myPartyHtml); // #myPartyList 영역에 동적 HTML 삽입
-                },
-                error: function(xhr, status, error) {
-                    console.log("AJAX 오류:", error);
-                    alert('나의 모임 데이터를 불러오는데 실패했습니다.');
-                }
-            });
-        }
-    </script>
-
     <!-- "나의 모임" 탭 콘텐츠 수정 -->
     <div id="Meeting" class="tabcontent">
         <div class="search-bar">
@@ -160,7 +120,7 @@
                     <button class="tablinks" data-country="FindMeeting" onclick="findParty()">
 				        <p data-title="FindMeeting">모임 찾기</p>
 				    </button>
-                <button class="tablinks active" data-country="Meeting" onclick="location.href='myParties'"><p data-title="Meeting">나의모임</p></button>
+                <button id="loadMyPartiesButton" class="tablinks active" data-country="Meeting" onclick="location.href='myParties'"><p data-title="Meeting">나의모임</p></button>
                 <button class="tablinks" data-country="Board"><p data-title="Board">피드</p></button>
                 <button class="tablinks" data-country="Event"><p data-title="Event">이벤트</p></button>
                 <button class="tablinks" data-country="Notice"><p data-title="Notice">공지사항</p></button>
@@ -191,11 +151,11 @@
 	                    </div>
 	                </div>
             </div>
-            
+    
             <!-- Tab content -->
             <div id="Meeting" class="tabcontent active">
                 <!-- 검색 바 -->
-    <div class="search-bar">
+    <div id="partyList" class="search-bar">
         <input type="text" id="search-input" placeholder="모임 제목을 검색하세요..." />
         <button id="search-btn">검색</button>
     </div>
@@ -210,6 +170,52 @@
         </div>
     </div>
                 
+                
+            
+	    <script type="text/javascript">
+	        $(document).ready(function() {
+	            // '나의 모임 보기' 버튼 클릭 시 AJAX 호출 (나의 모임)
+	            $('#loadMyPartiesButton').click(function() {
+	                $.ajax({
+	                    url: '/findPartiesByRegion',  // 서블릿 URL
+	                    method: 'GET',
+	                    success: function(response) {
+	                        var partyList = response;  // 서버에서 받은 JSON 데이터
+	                        var html = '';
+	
+	                        // 현재 사용자의 지역을 가져옵니다. (로그인된 사용자 정보에서 가져올 수 있음)
+	                        var userRegion = '${user.userRegion}';  // 실제로는 서버에서 값을 가져와야 함
+	
+	                        // 모임 목록에서 지역이 일치하는 모임만 필터링
+	                        var filteredList = partyList.filter(function(party) {
+	                            return party.partyRegion === userRegion;
+	                        });
+	
+	                        if (filteredList.length > 0) {
+	                            filteredList.forEach(function(party) {
+	                                html += `
+	                                    <div class="party-item">
+	                                        <h3>${party.partyNm}</h3>
+	                                        <p>지역: ${party.partyRegion}</p>
+	                                        <a href="partyDetails.jsp?partyIdx=${party.partyIdx}">모임 자세히 보기</a>
+	                                    </div>
+	                                `;
+	                            });
+	                        } else {
+	                            html = '<p>가입된 모임이 없습니다.</p>';
+	                        }
+	
+	                        // #partyList에 동적으로 HTML 삽입
+	                        $('#partyList').html(html);
+	                    },
+	                    error: function() {
+	                        alert('모임 데이터를 불러오는 데 실패했습니다.');
+	                    }
+	                });
+	            });
+	        });
+	    </script>
+		    
             </div>
             
             <div id="Board" class="tabcontent">

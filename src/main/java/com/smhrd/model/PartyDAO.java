@@ -49,17 +49,17 @@ public class PartyDAO {
         return myPartyList;
     }
     
-    // 지역에 맞는 모임 목록 가져오기
-    public List<PartyVO> selectPartiesByRegion(String userRegion) {
-        SqlSession session = sqlSessionFactory.openSession();
-        List<PartyVO> partyList = null;
-        try {
-            partyList = session.selectList("com.smhrd.db.Mapper.selectPartiesByRegion", userRegion);
-        } finally {
-            session.close();
-        }
-        return partyList;
-    }
+	 // 지역에 맞는 모임 목록 가져오기
+	    public List<PartyVO> selectPartiesByRegion(String userRegion) {
+	        SqlSession session = sqlSessionFactory.openSession();
+	        List<PartyVO> partyList = null;
+	        try {
+	            partyList = session.selectList("com.smhrd.db.Mapper.selectPartiesByRegion", userRegion);  // 지역에 맞는 모임 조회
+	        } finally {
+	            session.close();
+	        }
+	        return partyList;
+	    }
     
     // 모임 방 생성
     public int insertParty(PartyVO party) {
