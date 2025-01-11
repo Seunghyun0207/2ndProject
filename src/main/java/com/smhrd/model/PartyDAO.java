@@ -178,4 +178,28 @@ public class PartyDAO {
 	    }
 	    return result;
 	}
+	
+    // 특정 모임의 회원 목록 가져오기
+    public List<UserVO> getMembersByPartyIdx(int partyIdx) {
+        SqlSession session = sqlSessionFactory.openSession();
+        List<UserVO> members = null;
+        try {
+            members = session.selectList("com.smhrd.db.Mapper.selectMembersByPartyIdx", partyIdx);
+        } finally {
+            session.close();
+        }
+        return members;
+    }
+    
+	 // 특정 모임의 회원들의 자기소개글 가져오기
+	    public List<String> getJoinIntroByPartyIdx(int partyIdx) {
+	        SqlSession session = sqlSessionFactory.openSession();
+	        List<String> introList = null;
+	        try {
+	            introList = session.selectList("com.smhrd.db.Mapper.selectJoinIntroByPartyIdx", partyIdx);  // 자기소개글 조회
+	        } finally {
+	            session.close();
+	        }
+	        return introList;
+	    }
 }

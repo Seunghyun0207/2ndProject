@@ -12,6 +12,7 @@ import com.smhrd.model.JoinRequestDAO;
 import com.smhrd.model.JoinRequestVO;
 import com.smhrd.model.UserVO;
 
+
 @WebServlet("/joinRequest")
 public class JoinRequestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,14 +26,24 @@ public class JoinRequestServlet extends HttpServlet {
 
         String userId = user.getUserId();
         int partyIdx = Integer.parseInt(request.getParameter("partyIdx"));
+        
+        // joinIntro 값이 null 또는 빈 값일 경우 빈 문자열로 설정
         String joinIntro = request.getParameter("joinIntro");
+        if (joinIntro == null || joinIntro.trim().isEmpty()) {
+            joinIntro = "";  // 빈 문자열로 설정
+        }
 
         JoinRequestVO joinRequest = new JoinRequestVO(userId, partyIdx, joinIntro, 'N');
         JoinRequestDAO dao = new JoinRequestDAO();
         int result = dao.insertJoinRequest(joinRequest);
 
         if (result > 0) {
-            response.sendRedirect("partyDetails.jsp?partyIdx=" + partyIdx);
+            // 신청 완료 후 alert을 띄우고 main.jsp로 리디렉션
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().println("<script type='text/javascript'>");
+            response.getWriter().println("alert('신청이 완료되었습니다.');");
+            response.getWriter().println("window.location.href = 'main.jsp';");
+            response.getWriter().println("</script>");
         } else {
             response.getWriter().println("신청 실패");
         }

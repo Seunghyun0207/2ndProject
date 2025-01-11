@@ -177,6 +177,26 @@
         FROM tb_joning
         WHERE party_idx = #{partyIdx};
     </select>
-
-
+    
+    <!-- 신청 가입 수락 및 변경 -->
+    <update id="updateJoinRequestStatus">
+	    UPDATE tb_joning
+	    SET agree_yn = #{agreeYn}
+	    WHERE party_idx = #{partyIdx} AND user_id = #{userId};
+	</update>
+	
+	<!-- 회원 목록을 가져오기 -->
+	<select id="selectMembersByPartyIdx" resultType="com.smhrd.model.UserVO">
+	    SELECT u.user_id, u.user_name
+	    FROM tb_user u
+	    JOIN tb_joning j ON u.user_id = j.user_id
+	    WHERE j.party_idx = #{partyIdx};
+	</select>
+	
+	<!-- 자기소개글 조회 -->
+	<select id="selectJoinIntroByPartyIdx" resultType="String">
+	    SELECT join_intro
+	    FROM tb_joning
+	    WHERE party_idx = #{partyIdx}
+	</select>
 </mapper>

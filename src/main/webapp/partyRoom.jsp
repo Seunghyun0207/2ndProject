@@ -100,10 +100,13 @@
                     </section>
 
                     <!-- 관리자 전용 버튼 섹션 -->
-                    <section class="admin-section" id="adminSection">
-                        <button id="editButton">수정하기</button>
-                        <button id="membersButton">회원들 정보</button>
-                    </section>
+				    <section class="admin-section" id="adminSection">
+				        <button id="editButton">수정하기</button>
+				        <form action="viewMembers" method="get" style="display:inline;">
+				            <input type="hidden" name="partyIdx" value="${partyIdx}">
+				            <button id="membersButton" type="submit">회원들 정보</button>
+				        </form>
+				    </section>
                 </div>
 
                 <div id="Board1" class="tabcontent">
